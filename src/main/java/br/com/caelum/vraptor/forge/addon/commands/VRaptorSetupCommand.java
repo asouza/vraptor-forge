@@ -48,12 +48,16 @@ public class VRaptorSetupCommand extends AbstractProjectCommand {
 	public Result execute(UIExecutionContext context) throws Exception {
 		configureDependencies(context);
 		addMavenPlugins(context);
-		Project project = getSelectedProject(context);
-		CDIFacet_1_1 cdiFacet = project.getFacet(CDIFacet_1_1.class);
-		cdiFacet.install();
+		installCDI(context);
 		
 		return Results
 				.success("Command 'VRaptor: Setup' successfully executed!");
+	}
+
+	private void installCDI(UIExecutionContext context) {
+		Project project = getSelectedProject(context);
+		CDIFacet_1_1 cdiFacet = project.getFacet(CDIFacet_1_1.class);
+		cdiFacet.install();
 	}
 
 	private void addMavenPlugins(UIExecutionContext context) {
