@@ -23,8 +23,8 @@ import org.jboss.forge.addon.ui.result.Results;
 import org.jboss.forge.addon.ui.util.Categories;
 import org.jboss.forge.addon.ui.util.Metadata;
 
-import br.com.caelum.vraptor.forge.addon.specific.VRaptorDep;
-import br.com.caelum.vraptor.forge.addon.specific.VRaptorPlugin;
+import br.com.caelum.vraptor.forge.addon.maven.VRaptorDep;
+import br.com.caelum.vraptor.forge.addon.maven.VRaptorPlugin;
 
 public class VRaptorSetupCommand extends AbstractProjectCommand {
 
@@ -49,14 +49,14 @@ public class VRaptorSetupCommand extends AbstractProjectCommand {
 	@Override
 	public Result execute(UIExecutionContext context) throws Exception {
 		configureDependencies(context);		
-		addPlugins(context);
+		addMavenPlugins(context);
 		
 		return Results
 				.success("Command 'VRaptor: Setup' successfully executed!");
 	}
 
 
-	private void addPlugins(UIExecutionContext context) {
+	private void addMavenPlugins(UIExecutionContext context) {
 		Project project = getSelectedProject(context);
 		MavenPluginFacet pluginFacet = project.getFacet(MavenPluginFacet.class);
 		for(VRaptorPlugin plugin : VRaptorPlugin.values()){

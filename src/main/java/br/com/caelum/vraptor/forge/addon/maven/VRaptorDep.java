@@ -1,4 +1,4 @@
-package br.com.caelum.vraptor.forge.addon.specific;
+package br.com.caelum.vraptor.forge.addon.maven;
 
 import org.jboss.forge.addon.dependencies.builder.DependencyBuilder;
 
