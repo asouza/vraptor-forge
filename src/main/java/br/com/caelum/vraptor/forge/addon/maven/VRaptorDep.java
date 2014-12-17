@@ -7,7 +7,7 @@ public enum VRaptorDep {
 	VRAPTOR("br.com.caelum", "vraptor", "4.1.2", false), 
 	SERVLET("javax.servlet", "jstl", "1.2", false),
 	INJECT("javax.inject","javax.inject","1",true),
-	HIBERNATE_VALIDATOR("org.hibernate","hibernate-validator-cdi","5.1.1",true),
+	HIBERNATE_VALIDATOR("org.hibernate","hibernate-validator-cdi","5.1.1.Final",true),
 	EL("javax.el","el-api","2.2",true),
 	WELD("org.jboss.weld","weld-core-impl","2.1.2.Final",true),
 	WELD_SERVLET("org.jboss.weld.servlet","weld-servlet-core","2.1.2.Final",true);
