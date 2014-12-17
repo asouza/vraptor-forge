@@ -2,16 +2,14 @@ package br.com.caelum.vraptor.forge.addon.commands;
 
 import javax.inject.Inject;
 
-import org.jboss.forge.addon.dependencies.builder.CoordinateBuilder;
 import org.jboss.forge.addon.dependencies.builder.DependencyBuilder;
-import org.jboss.forge.addon.maven.plugins.MavenPluginBuilder;
-import org.jboss.forge.addon.maven.projects.MavenFacet;
+import org.jboss.forge.addon.facets.constraints.FacetConstraint;
+import org.jboss.forge.addon.javaee.cdi.CDIFacet_1_1;
 import org.jboss.forge.addon.maven.projects.MavenPluginFacet;
 import org.jboss.forge.addon.projects.Project;
 import org.jboss.forge.addon.projects.ProjectFactory;
 import org.jboss.forge.addon.projects.dependencies.DependencyInstaller;
 import org.jboss.forge.addon.projects.ui.AbstractProjectCommand;
-import org.jboss.forge.addon.resource.ResourceFactory;
 import org.jboss.forge.addon.ui.context.UIBuilder;
 import org.jboss.forge.addon.ui.context.UIContext;
 import org.jboss.forge.addon.ui.context.UIExecutionContext;
@@ -26,6 +24,7 @@ import org.jboss.forge.addon.ui.util.Metadata;
 import br.com.caelum.vraptor.forge.addon.maven.VRaptorDep;
 import br.com.caelum.vraptor.forge.addon.maven.VRaptorPlugin;
 
+@FacetConstraint({CDIFacet_1_1.class})
 public class VRaptorSetupCommand extends AbstractProjectCommand {
 
 	@Override
@@ -44,25 +43,26 @@ public class VRaptorSetupCommand extends AbstractProjectCommand {
 	public void initializeUI(UIBuilder builder) throws Exception {
 		builder.add(javaeeEnv);
 	}
-	
 
 	@Override
 	public Result execute(UIExecutionContext context) throws Exception {
-		configureDependencies(context);		
+		configureDependencies(context);
 		addMavenPlugins(context);
+		Project project = getSelectedProject(context);
+		CDIFacet_1_1 cdiFacet = project.getFacet(CDIFacet_1_1.class);
+		cdiFacet.install();
 		
 		return Results
 				.success("Command 'VRaptor: Setup' successfully executed!");
 	}
 
-
 	private void addMavenPlugins(UIExecutionContext context) {
 		Project project = getSelectedProject(context);
 		MavenPluginFacet pluginFacet = project.getFacet(MavenPluginFacet.class);
-		for(VRaptorPlugin plugin : VRaptorPlugin.values()){
+		for (VRaptorPlugin plugin : VRaptorPlugin.values()) {
 			pluginFacet.addPlugin(plugin.build());
 		}
-		
+
 	}
 
 	private void configureDependencies(UIExecutionContext context) {
