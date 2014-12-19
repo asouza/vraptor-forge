@@ -24,6 +24,7 @@ import org.jboss.forge.addon.ui.result.Result;
 import org.jboss.forge.addon.ui.result.Results;
 import org.jboss.forge.addon.ui.util.Categories;
 import org.jboss.forge.addon.ui.util.Metadata;
+import org.jboss.shrinkwrap.descriptor.api.beans11.BeansDescriptor;
 import org.jboss.shrinkwrap.descriptor.api.persistence21.PersistenceDescriptor;
 import org.jboss.shrinkwrap.descriptor.api.persistence21.PersistenceUnit;
 import org.jboss.shrinkwrap.descriptor.api.persistence21.Properties;
@@ -61,6 +62,7 @@ public class VRaptorJPACommand extends AbstractProjectCommand {
 		facetFactory.install(getSelectedProject(builder.getUIContext()),
 				JPAFacet_2_1.class);	
 		builder.add(dbType);
+		builder.add(supportsTransactional);
 	}
 
 	@Override
@@ -95,7 +97,6 @@ public class VRaptorJPACommand extends AbstractProjectCommand {
 			props.createProperty().name("hibernate.show_sql").value("true");
 			props.createProperty().name("hibernate.format_sql").value("true");		
 			props.createProperty().name("hibernate.hbm2ddl.auto").value("update");
-//			System.out.println(config.exportAsString());
 			jpaFacet.saveConfig(config);
 		}
 		
@@ -105,8 +106,10 @@ public class VRaptorJPACommand extends AbstractProjectCommand {
 	private void installDecorator(UIExecutionContext context) {
 		Project project = getSelectedProject(context);
 		CDIFacet_1_1 cdiFacet = project.getFacet(CDIFacet_1_1.class);
-		cdiFacet.getConfig().getOrCreateDecorators()
+		BeansDescriptor config = cdiFacet.getConfig();
+		config.getOrCreateDecorators()
 				.clazz("br.com.caelum.vraptor.jpa.TransactionDecorator");
+		cdiFacet.saveConfig(config);
 	}
 
 	private void configureDependencies(UIExecutionContext context) {
