@@ -50,6 +50,16 @@
 			<artifactId>maven</artifactId>
 			<classifier>forge-addon</classifier>
 		</dependency>
+		<dependency>
+			<groupId>org.jboss.forge.addon</groupId>
+			<artifactId>javaee</artifactId>
+			<classifier>forge-addon</classifier>
+		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.jboss.forge.addon</groupId> -->
+<!-- 			<artifactId>javaee-impl</artifactId> -->
+<!-- 			<version>${version.furnace}</version> -->
+<!-- 		</dependency> -->
 	</dependencies>
 	<build>
 		<finalName>vraptor4-forge</finalName>
