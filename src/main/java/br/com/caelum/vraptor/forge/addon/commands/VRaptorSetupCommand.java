@@ -3,7 +3,6 @@ package br.com.caelum.vraptor.forge.addon.commands;
 import javax.inject.Inject;
 
 import org.jboss.forge.addon.dependencies.builder.DependencyBuilder;
-import org.jboss.forge.addon.facets.constraints.FacetConstraint;
 import org.jboss.forge.addon.javaee.cdi.CDIFacet_1_1;
 import org.jboss.forge.addon.maven.projects.MavenPluginFacet;
 import org.jboss.forge.addon.projects.Project;
@@ -24,7 +23,6 @@ import org.jboss.forge.addon.ui.util.Metadata;
 import br.com.caelum.vraptor.forge.addon.maven.VRaptorDep;
 import br.com.caelum.vraptor.forge.addon.maven.VRaptorPlugin;
 
-@FacetConstraint({CDIFacet_1_1.class})
 public class VRaptorSetupCommand extends AbstractProjectCommand {
 
 	@Override

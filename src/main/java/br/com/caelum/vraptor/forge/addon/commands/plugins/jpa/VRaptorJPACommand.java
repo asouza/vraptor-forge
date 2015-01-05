@@ -5,7 +5,6 @@ import javax.inject.Inject;
 import org.jboss.forge.addon.dependencies.Dependency;
 import org.jboss.forge.addon.dependencies.builder.DependencyBuilder;
 import org.jboss.forge.addon.facets.FacetFactory;
-import org.jboss.forge.addon.facets.constraints.FacetConstraint;
 import org.jboss.forge.addon.javaee.cdi.CDIFacet_1_1;
 import org.jboss.forge.addon.javaee.jpa.DatabaseType;
 import org.jboss.forge.addon.javaee.jpa.JPAFacet_2_1;
@@ -32,7 +31,6 @@ import org.jboss.shrinkwrap.descriptor.api.persistence21.Properties;
 import br.com.caelum.vraptor.forge.addon.commands.VRaptorSetupCommand;
 import br.com.caelum.vraptor.forge.addon.javaee.JavaeeMavenDependency;
 
-@FacetConstraint({ CDIFacet_1_1.class, JPAFacet_2_1.class })
 public class VRaptorJPACommand extends AbstractProjectCommand {
 
 	@Inject
