@@ -1,0 +1,32 @@
+package ${basePackage}.daos;
+
+import java.util.List;
+
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+
+import ${basePackage}.models.${modelName};
+
+public class ${modelName}DAO {
+
+	@Inject
+	private EntityManager em;
+
+	public void save(${modelName} object) {
+		em.persist(object);
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<${modelName}> list() {
+		return em.createQuery("select o from ${modelName} o").getResultList();
+	}
+
+	public ${modelName} load(Integer id) {
+		return em.find(${modelName}.class, id);
+	}
+
+	public void update(${modelName} object) {
+		em.merge(object);
+	}
+
+}

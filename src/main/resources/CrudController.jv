@@ -1,0 +1,49 @@
+package ${basePackage}.controllers;
+
+import java.util.List;
+
+import javax.inject.Inject;
+import javax.validation.Valid;
+
+import ${basePackage}.daos.${modelName}DAO;
+import ${basePackage}.models.${modelName};
+import br.com.caelum.vraptor.Controller;
+import br.com.caelum.vraptor.Result;
+import br.com.caelum.vraptor.validator.Validator;
+
+@Controller
+public class ${modelName}Controller {
+
+	@Inject
+	private Result result;
+	@Inject
+	private Validator validator;
+	@Inject
+	private ${modelName}DAO dao;
+	
+	public void form(){
+		
+	}
+	
+	public void create(@Valid ${modelName} object){
+		validator.onErrorForwardTo(this).form();
+		dao.save(object);
+		result.redirectTo(this).list();
+	}
+	
+	public ${modelName} updateForm(Integer id){
+		${modelName} object = dao.load(id);
+		return object;
+	}
+	
+	public void update(@Valid ${modelName} object){
+		validator.onErrorForwardTo(this).updateForm(object.getId());
+		dao.update(object);
+		result.redirectTo(this).list();
+	}
+
+	public List<${modelName}> list() {
+		List<${modelName}> list = dao.list();
+		return list;
+	}
+}
