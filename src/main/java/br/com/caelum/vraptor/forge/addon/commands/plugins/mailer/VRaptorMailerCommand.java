@@ -7,6 +7,8 @@ import javax.inject.Inject;
 
 import org.jboss.forge.addon.dependencies.Dependency;
 import org.jboss.forge.addon.dependencies.builder.DependencyBuilder;
+import org.jboss.forge.addon.facets.FacetFactory;
+import org.jboss.forge.addon.javaee.cdi.CDIFacet_1_1;
 import org.jboss.forge.addon.projects.Project;
 import org.jboss.forge.addon.projects.ProjectFactory;
 import org.jboss.forge.addon.projects.dependencies.DependencyInstaller;
@@ -21,6 +23,8 @@ import org.jboss.forge.addon.ui.result.Result;
 import org.jboss.forge.addon.ui.result.Results;
 import org.jboss.forge.addon.ui.util.Categories;
 import org.jboss.forge.addon.ui.util.Metadata;
+import org.jboss.shrinkwrap.descriptor.api.beans11.BeansDescriptor;
+import org.jboss.shrinkwrap.descriptor.api.beans11.Scan;
 
 import br.com.caelum.vraptor.forge.addon.commands.VRaptorSetupCommand;
 
@@ -28,10 +32,12 @@ public class VRaptorMailerCommand extends AbstractProjectCommand {
 	
 	@Inject
 	private DependencyInstaller dependencyInstaller;
+	@Inject
+	private FacetFactory facetFactory;
 
 	@Override
 	public void initializeUI(UIBuilder builder) throws Exception {
-
+		facetFactory.install(getSelectedProject(builder.getUIContext()), CDIFacet_1_1.class);
 	}
 	
 	@Override
@@ -45,8 +51,17 @@ public class VRaptorMailerCommand extends AbstractProjectCommand {
 	public Result execute(UIExecutionContext context) throws Exception {
 		writeEntriesInProperties(context);
 		configureDependencies(context);
+		excludeClassesFromBeansXml(context);
 		return Results
 				.success("Command 'VRaptor-mailer: Setup' successfully executed!");
+	}
+
+	private void excludeClassesFromBeansXml(UIExecutionContext context) {
+		CDIFacet_1_1 facet = getSelectedProject(context).getFacet(CDIFacet_1_1.class);
+		BeansDescriptor config = facet.getConfig();
+		Scan<BeansDescriptor> scan = config.getOrCreateScan();
+		scan.getOrCreateExclude().name("com.google.common.util.concurrent.MoreExecutors$SameThreadExecutorService");
+		facet.saveConfig(config);
 	}
 
 	private void configureDependencies(UIExecutionContext context) {
