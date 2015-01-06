@@ -111,14 +111,21 @@ public class VRaptorJPACommand extends AbstractProjectCommand {
 	}
 
 	private void configureDependencies(UIExecutionContext context) {
+		Project project = getSelectedProject(context);
 		Dependency vraptorJPADependency = DependencyBuilder
 				.create("br.com.caelum.vraptor:vraptor-jpa:4.0.2");
-		Project project = getSelectedProject(context);
 		dependencyInstaller.install(project, vraptorJPADependency);
+		
 		DependencyBuilder jpaDependency = DependencyBuilder
 				.create("org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.Final");
 		javaeeDependency.applyProvided(jpaDependency, false);
 		dependencyInstaller.install(project, jpaDependency);
+		
+		VendorConf vendorConf = jpaDatabaseRelation.getVendorConf(dbType.getValue());
+		if(vendorConf.isMavenConfigured()){
+			DependencyBuilder driverDependency = DependencyBuilder.create(vendorConf.getDriverMavenDependency());
+			dependencyInstaller.install(project, driverDependency);
+		}
 	}
 
 	@Override
