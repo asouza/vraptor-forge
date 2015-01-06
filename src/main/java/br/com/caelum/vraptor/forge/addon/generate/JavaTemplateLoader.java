@@ -36,7 +36,4 @@ public class JavaTemplateLoader {
 	      return resource;
 	}
 	
-	public static void main(String[] args) {
-		System.out.println(JavaTemplateLoader.class.getResource("/CrudController.jv"));
-	}
 }

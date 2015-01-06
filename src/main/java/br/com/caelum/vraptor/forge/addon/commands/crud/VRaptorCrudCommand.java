@@ -53,9 +53,12 @@ public class VRaptorCrudCommand extends AbstractProjectCommand{
 		HashMap<Object, Object> params = new HashMap<>();
 		params.put("basePackage", basePackage.getValue().toString());
 		params.put("modelName", modelName.getValue().toString());
+		
 		JavaClassSource controllerSource = javaTemplateLoader.processTemplate("/CrudController.jv", params);
 		JavaClassSource daoSource = javaTemplateLoader.processTemplate("/CrudDao.jv", params);
+		
 		Project project = getSelectedProject(context);
+		
 		JavaSourceFacet javaSourceFacet = project.getFacet(JavaSourceFacet.class);
 		javaSourceFacet.saveJavaSource(controllerSource);
 		javaSourceFacet.saveJavaSource(daoSource);
