@@ -55,11 +55,11 @@
 			<artifactId>javaee</artifactId>
 			<classifier>forge-addon</classifier>
 		</dependency>
-<!-- 		<dependency> -->
-<!-- 		   <groupId>org.jboss.forge.addon</groupId> -->
-<!-- 		   <artifactId>resources</artifactId> -->
-<!-- 		   <classifier>forge-addon</classifier> -->
-<!-- 		</dependency>		 -->
+		<dependency>
+		   <groupId>br.com.caelum.formgenerator</groupId>
+		   <artifactId>form-generator</artifactId>
+		   <version>1.0.0-SNAPSHOT</version>
+		</dependency>		
 	</dependencies>
 	<build>
 		<finalName>vraptor4-forge</finalName>
