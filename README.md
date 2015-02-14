@@ -35,3 +35,13 @@ Just type the follow command:
 vraptor-controller --packageName br.com.caelum.blank.controllers --className HomeController
 
 ```
+
+#Developing
+
+After cloning the repository and installing forge, enter in the forge
+console and install the vraptor-addon from source:
+
+```
+addon-build-and-install /path/to/the/repository/vraptor-forge
+```
+
