@@ -47,4 +47,9 @@ public class ForgeFormTemplate implements FormTemplate {
 		return output;
 	}
 
+	@Override
+	public boolean exists(String templatePath) {
+		return new File(projectPath+"/src/main/resources"+templatePath).exists();
+	}
+
 }
