@@ -14,7 +14,7 @@ import org.jboss.forge.addon.templates.Template;
 import org.jboss.forge.addon.templates.TemplateFactory;
 import org.jboss.forge.addon.templates.freemarker.FreemarkerTemplate;
 
-import br.com.caelum.formgenerator.templates.FormTemplate;
+import br.com.caelum.vraptor.forge.addon.form.templates.FormTemplate;
 import freemarker.template.TemplateException;
 
 @ApplicationScoped

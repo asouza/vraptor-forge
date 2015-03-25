@@ -26,10 +26,10 @@ import org.jboss.forge.addon.ui.util.Metadata;
 import org.jboss.forge.roaster.model.source.FieldSource;
 import org.jboss.forge.roaster.model.source.JavaClassSource;
 
-import br.com.caelum.formgenerator.DefaultInputInfo;
-import br.com.caelum.formgenerator.InputInfo;
-import br.com.caelum.formgenerator.templates.FormTemplate;
 import br.com.caelum.vraptor.forge.addon.commands.VRaptorControllerCommand;
+import br.com.caelum.vraptor.forge.addon.form.DefaultInputInfo;
+import br.com.caelum.vraptor.forge.addon.form.InputInfo;
+import br.com.caelum.vraptor.forge.addon.form.templates.FormTemplate;
 import freemarker.template.TemplateException;
 
 public class GenerateViewsCommand extends AbstractProjectCommand {

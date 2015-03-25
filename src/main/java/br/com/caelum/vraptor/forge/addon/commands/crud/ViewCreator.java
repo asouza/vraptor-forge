@@ -5,16 +5,14 @@ import java.util.Map;
 
 import javax.enterprise.inject.Vetoed;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jboss.forge.addon.projects.facets.WebResourcesFacet;
 import org.jboss.forge.addon.resource.FileResource;
 import org.jboss.forge.roaster.model.source.JavaClassSource;
 
+import br.com.caelum.vraptor.forge.addon.form.templates.FormTemplate;
 import freemarker.template.TemplateException;
-import br.com.caelum.formgenerator.templates.FormTemplate;
 
 @Vetoed
 public class ViewCreator {
