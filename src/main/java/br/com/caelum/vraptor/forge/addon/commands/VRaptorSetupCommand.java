@@ -11,8 +11,6 @@ import org.jboss.forge.addon.javaee.validation.ValidationFacet;
 import org.jboss.forge.addon.maven.projects.MavenPluginFacet;
 import org.jboss.forge.addon.projects.Project;
 import org.jboss.forge.addon.projects.ProjectFactory;
-import org.jboss.forge.addon.projects.dependencies.DependencyInstaller;
-import org.jboss.forge.addon.projects.facets.WebResourcesFacet;
 import org.jboss.forge.addon.projects.ui.AbstractProjectCommand;
 import org.jboss.forge.addon.ui.context.UIBuilder;
 import org.jboss.forge.addon.ui.context.UIContext;
@@ -28,6 +26,7 @@ import org.jboss.shrinkwrap.descriptor.api.validationConfiguration11.ExecutableV
 import org.jboss.shrinkwrap.descriptor.api.validationConfiguration11.ValidationConfigurationDescriptor;
 import org.jboss.shrinkwrap.descriptor.api.webapp30.WebAppDescriptor;
 
+import br.com.caelum.vraptor.forge.addon.PluginInstaller;
 import br.com.caelum.vraptor.forge.addon.maven.VRaptorDep;
 import br.com.caelum.vraptor.forge.addon.maven.VRaptorPlugin;
 
@@ -39,13 +38,14 @@ public class VRaptorSetupCommand extends AbstractProjectCommand {
 				.name("VRaptor: Setup").category(Categories.create("VRaptor"));
 	}
 
+
 	@Inject
-	private DependencyInstaller dependencyInstaller;
-	@Inject
-	private FacetFactory facetFactory;	
+	private FacetFactory facetFactory;
 	@Inject
 	@WithAttributes(label = "JAVAEE environment?", required = false)
 	private UIInput<Boolean> javaeeEnv;
+	@Inject
+	private PluginInstaller pluginInstaller;
 
 	@Override
 	public void initializeUI(UIBuilder builder) throws Exception {
@@ -58,34 +58,36 @@ public class VRaptorSetupCommand extends AbstractProjectCommand {
 
 	@Override
 	public Result execute(UIExecutionContext context) throws Exception {
-		configureDependencies(context);
-		addMavenPlugins(context);
 		installCDI(context);
 		installValidation(context);
 		installWebxml(context);
-		
+		configureDependencies(context);
+		addMavenPlugins(context);
+
 		return Results
 				.success("Command 'VRaptor: Setup' successfully executed!");
 	}
 
 	private void installWebxml(UIExecutionContext context) {
-		if(!javaeeEnv.getValue()){
+		if (!javaeeEnv.getValue()) {
 			Project project = getSelectedProject(context);
-			ServletFacet<WebAppDescriptor> facet = project.getFacet(ServletFacet_3_0.class);
+			ServletFacet<WebAppDescriptor> facet = project
+					.getFacet(ServletFacet_3_0.class);
 			facet.install();
-			
+
 			WebAppDescriptor webxml = facet.getConfig();
-			webxml.createListener().listenerClass("org.jboss.weld.environment.servlet.Listener");
+			webxml.createListener().listenerClass(
+					"org.jboss.weld.environment.servlet.Listener");
 			facet.saveConfig(webxml);
 		}
 	}
 
 	private void installValidation(UIExecutionContext context) {
 		Project project = getSelectedProject(context);
-		ValidationFacet facet = project.getFacet(ValidationFacet.class);		
+		ValidationFacet facet = project.getFacet(ValidationFacet.class);
 		facet.install();
-		
-		ValidationConfigurationDescriptor config = facet.getConfig();
+		ValidationConfigurationDescriptor config = facet.getConfig().version(
+				"1.1");
 		ExecutableValidationType<ValidationConfigurationDescriptor> executableValidation = config
 				.getOrCreateExecutableValidation();
 		executableValidation.enabled(false);
@@ -109,14 +111,14 @@ public class VRaptorSetupCommand extends AbstractProjectCommand {
 
 	private void configureDependencies(UIExecutionContext context) {
 		Boolean isJavaeeEnv = javaeeEnv.getValue();
-		for (VRaptorDep dep : VRaptorDep.values()) {
-			DependencyBuilder dependency = dep.build();
-			if (isJavaeeEnv && dep.isProvided()) {
-				dependency.setScopeType("provided");
+		Project selectedProject = getSelectedProject(context);
+		for (VRaptorDep vraptorDep : VRaptorDep.values()) {
+			DependencyBuilder mavenDependency = vraptorDep.build();
+			if (vraptorDep.isProvided(isJavaeeEnv)) {
+				mavenDependency.setScopeType("provided");
 			}
-			dependencyInstaller
-					.install(getSelectedProject(context), dependency);
-		}
+
+			pluginInstaller.forceInstall(selectedProject,mavenDependency);		}
 	}
 
 	@Override
