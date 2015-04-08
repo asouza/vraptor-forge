@@ -8,7 +8,7 @@ Type "forge" to enter in the forge console. Now you need to install the VRaptor 
 command:
  
 ```
-addon-install-from-git --url https://github.com/asouza/vraptor4-forge
+addon-install-from-git --url https://github.com/asouza/vraptor-forge
 
 ```
 
